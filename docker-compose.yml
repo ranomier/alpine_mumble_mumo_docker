@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  murmur:
+    build: mumble_snapshot
+    restart: always
+    volumes:
+      - /srv/docker_volumes/murmur/data:/home/murmur/data
+    expose:
+      - "64738/tcp"
+      - "64738/udp"
+      - "6502"
+
+  app:
+    build: ./app
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html
+    environment:
+      - MYSQL_HOST=db
+    env_file:
+      - db.env
+    depends_on:
+      - db
+      - redis
+
+  web:
+    build: ./web
+    restart: always
+    ports:
+      - 8080:80
+    volumes:
+      - nextcloud:/var/www/html:ro
+    depends_on:
+      - app
+
+  cron:
+    build: ./app
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html
+    entrypoint: /cron.sh
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  - /srv/docker_volumes/murmur
