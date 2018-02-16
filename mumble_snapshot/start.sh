@@ -1,5 +1,6 @@
 #!/bin/ash
 printf "using start script\n"
+mkdir -p "${HOME}/data"
 murmur_loc="${HOME}/data/murmur.ini"
 if [ -e "${murmur_loc}" ]; then
     mv "${HOME}/murmur.ini" "orignal_${murmur_loc}"
