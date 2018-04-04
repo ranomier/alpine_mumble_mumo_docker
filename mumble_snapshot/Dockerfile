@@ -1,7 +1,5 @@
 FROM alpine:latest
 
-VOLUME = ['/home/murmur/data']
-
 MAINTAINER none
 EXPOSE 64738/tcp 64738/udp
 EXPOSE 6502
@@ -17,6 +15,7 @@ RUN set -eu \
  && chmod -R u+rw /home/murmur/data
 
 USER murmur
+VOLUME = /home/murmur/data
 WORKDIR /home/murmur
 COPY --chown=murmur "start.sh" "start.sh"
 RUN set -eu \
