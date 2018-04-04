@@ -11,7 +11,10 @@ RUN set -eu \
  && apk upgrade \
  && apk add wget ca-certificates tar \
  && rm -rf /var/cache/apk/* \
- && adduser -D -h /home/murmur murmur
+ && adduser -D -h /home/murmur murmur \
+ && mkdir -p /home/murmur/data \
+ && chown -R murmur /home/murmur/data \
+ && chmod -R u+rw /home/murmur/data
 
 USER murmur
 WORKDIR /home/murmur
