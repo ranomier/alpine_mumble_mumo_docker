@@ -10,3 +10,4 @@ A Mumble server with Mumble Moderator based on Alpine Lunux for Docker. Based on
 
 ### TODO ###
 - add a music bot
+- change to grpc
