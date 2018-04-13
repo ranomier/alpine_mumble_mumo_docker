@@ -3,7 +3,6 @@ FROM alpine:latest
 # info to how compile zeroc-ice on alpine
 # https://forums.zeroc.com/discussion/46576/cant-compile-the-python-package-because-of-an-undeclared-value
 
-VOLUME = ['/home/mumo/data']
 
 ENV build_deps="py2-pip build-base python2-dev openssl-dev bzip2-dev"
 ENV deps="python2 tree git"
@@ -23,29 +22,7 @@ RUN set -eu \
  && adduser -D mumo
 
 USER mumo
+VOLUME = ['/home/mumo/data']
 WORKDIR /home/mumo
-RUN set -eu \
- && git clone --depth=1 'https://github.com/mumble-voip/mumo.git' \
- && mkdir 'addons' \
- && cd 'addons' \
- && clone_array='https://github.com/aselus-hub/chatimg-mumo.git \
-                 https://github.com/while-loop/mumo-videoinfo.git \
-                 https://github.com/ExplodingFist/mumo-opcommand.git \
-                 https://github.com/Natenom/mumblemoderator-module-collection.git \
-                 https://github.com/Betriebsrat/mumo-password.git' \
- && for git_url in ${clone_array}; do \
-        printf "start ${git_url}\n"; \
-        git clone --depth=1 "${git_url}"; \
-        printf "end ${git_url}\n"; \
-    done \
- && cd - \
- \
- && mkdir 'addons/config' \
- && find 'addons' -iname '*\.ini' -type f -exec mv {} "${HOME}/mumo/modules-available" \; \
- && find 'addons' -iname '*\.py' -type f -exec mv {} "${HOME}/mumo/modules" \; \
- && tree 'addons' \
- && tree "${HOME}" \
- && printf 'I merged all the downloaded addons into the main mumo repo. Please check if i forgot something.\n' \
- && printf 'Deleting addons now.\n' \
- && rm -rf 'addons'
-
+COPY configure_modules.py /home/mumo
+RUN ./configure_modules.py

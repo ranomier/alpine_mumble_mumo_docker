@@ -12,43 +12,21 @@ services:
     ports:
       - "64738:64738/tcp"
       - "64738:64738/udp"
-#      - "6502"
+      - "6502"
+    networks:
+      - mumble_mumo
+
+  mumo:
+    build: mumo_alpine
+    restart: always
+    volumes:
+      - /srv/docker_volumes/mumo/data:/home/mumo/data
+#    ports:
+#      - 6502
     networks:
       - mumble_mumo
 
 #volumes:
 #  - /srv/docker_volumes/murmur
-#app:
-#    build: ./app
-#    restart: always
-#    volumes:
-#      - nextcloud:/var/www/html
-#    environment:
-#      - MYSQL_HOST=db
-#    env_file:
-#      - db.env
-#    depends_on:
-#      - db
-#      - redis
-#
-#  web:
-#    build: ./web
-#    restart: always
-#    ports:
-#      - 8080:80
-#    volumes:
-#      - nextcloud:/var/www/html:ro
-#    depends_on:
-#      - app
-#
-#  cron:
-#    build: ./app
-#    restart: always
-#    volumes:
-#      - nextcloud:/var/www/html
-#    entrypoint: /cron.sh
-#    depends_on:
-#      - db
-#      - redis
-#
-# vim: tabstop=2 shiftwidth=2 expandtab
+
+#vim: tabstop=2 shiftwidth=2 expandtab
