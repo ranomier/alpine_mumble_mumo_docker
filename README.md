@@ -1,6 +1,12 @@
-# alpine_mumble_mumo_docker
-A Mumble server with Mumble Moderator based on Alpine Lunux for Docker.
-Based on Mumble snapshot.
+# alpine_mumble_mumo_docker #
 
+```diff
+-This is not working yet. I'm working on it.
+```
 
-This is not working yet. I'm working on it. The idea. A repo gathering all Dockerfiles to setup a murmur (mumble) server with mumo and maybe bots.
+A Mumble server with Mumble Moderator based on Alpine Lunux for Docker. Based on Mumble snapshot.
+- No root required
+- all capabilies disabled
+
+### TODO ###
+- add a music bot
