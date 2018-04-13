@@ -16,6 +16,7 @@ RUN set -eu \
 
 USER murmur
 VOLUME = /home/murmur/data
+VOLUME = /home/murmur/share
 WORKDIR /home/murmur
 COPY --chown=murmur "start.sh" "start.sh"
 RUN set -eu \

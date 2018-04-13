@@ -9,24 +9,33 @@ services:
     restart: always
     volumes:
       - /srv/docker_volumes/murmur/data:/home/murmur/data
+      - share:/home/murmur/share
     ports:
       - "64738:64738/tcp"
       - "64738:64738/udp"
       - "6502"
     networks:
       - mumble_mumo
+    cap_drop:
+      - ALL
 
   mumo:
     build: mumo_alpine
     restart: always
     volumes:
       - /srv/docker_volumes/mumo/data:/home/mumo/data
-#    ports:
-#      - 6502
+      - share:/home/mumo/share
+
+# uncomment the next two lines to the the cloned addons stay
+#    environment:
+#      - DO_NOT_DELETE_ADDONS=true
     networks:
       - mumble_mumo
 
-#volumes:
-#  - /srv/docker_volumes/murmur
+    cap_drop:
+      - ALL
+
+volumes:
+  share:
 
 #vim: tabstop=2 shiftwidth=2 expandtab
