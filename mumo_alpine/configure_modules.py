@@ -90,6 +90,9 @@ def main():
             print(Clr.WRN + "WARNING" + Clr.RST + " File already exsists: ", file_path,
                   " in ", modules_path)
 
+    # fixing derangment of prints
+    sys.stdout.flush()
+
     sp.check_call(("tree", os.path.join(os.environ["HOME"], "addons")))
     sp.check_call(("tree", os.environ["HOME"]))
     print("I merged all the downloaded addons into the main mumo repo.\n",
