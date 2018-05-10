@@ -4,9 +4,9 @@ FROM alpine:latest
 # https://forums.zeroc.com/discussion/46576/cant-compile-the-python-package-because-of-an-undeclared-value
 
 
+# compile zeroc-ice and install everything we need
 ENV build_deps="py2-pip build-base python2-dev openssl-dev bzip2-dev"
 ENV deps="python2 tree git"
-
 RUN set -eu \
  && apk update \
  && apk add ${deps} \
@@ -24,8 +24,10 @@ RUN set -eu \
  && chown -R mumo /home/mumo/share \
  && chmod -R u+rw /home/mumo/share
 
+
 USER mumo
 VOLUME ["/home/mumo/data", "/home/mumo/share"]
 WORKDIR /home/mumo
 COPY configure_modules.py /home/mumo
 RUN ./configure_modules.py
+

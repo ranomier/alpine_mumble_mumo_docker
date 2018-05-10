@@ -1,5 +1,5 @@
 #!/usr/bin/env python2
-"""DOCSTRING TODO"""
+"""This script is for downloading and configuring all the mumble moderator modules"""
 from __future__ import print_function
 import subprocess as sp
 import sys
@@ -14,7 +14,8 @@ class Clr(object): # pylint: disable=too-few-public-methods
     RST = '\x1b[0m'
 
 def git_clone(clone_string, to_dir=""):
-    """TODO"""
+    """a little git clone wrapper function. It will clone with --depth=1,
+    which leads to smaler downloads, because the history will not ne downloaded"""
     print("normal clone: " + clone_string)
     previous_dir = os.getcwd()
     os.chdir(to_dir)
@@ -23,7 +24,8 @@ def git_clone(clone_string, to_dir=""):
     return return_value
 
 def clone_github(user_repo_string, to_dir=""):
-    """TODO"""
+    """same as git_clone but downloads only from github and you only need
+    'user/repo' or 'group/repo'"""
     print("github clone: " + user_repo_string)
     previous_dir = os.getcwd()
     os.chdir(to_dir)
@@ -33,7 +35,7 @@ def clone_github(user_repo_string, to_dir=""):
     return return_value
 
 def choose(clone_string, to_dir=""):
-    """TODO"""
+    """from the clone_string try to find out which git clone functio to use"""
     if clone_string.startswith(("https://", "http://")):
         return git_clone(clone_string, to_dir=to_dir)
     elif clone_string.count("/") == 1:
@@ -42,13 +44,30 @@ def choose(clone_string, to_dir=""):
         raise ValueError(clone_string + " is an unkown clone url type")
 
 def find_files_recursive(pattern, directory):
-    """TODO"""
+    """search a pattern in a directory and all directory below it.
+    The pattern is from the fnmatch library from core python. Please look there"""
     for root, _, filenames in os.walk(directory):
         for filename in fnmatch.filter(filenames, pattern):
             yield os.path.join(root, filename)
 
+
+
+def mumo_modules_move(pattern, from_path, to_path):
+    """find all files with given pattern in given from_path and move it to_path :)"""
+    for file_path in find_files_recursive(pattern, from_path):
+        print(Clr.OKG + "FROM:" + Clr.RST, " ",
+              file_path,
+              " " + Clr.OKG + "TO:" + Clr.RST + " ",
+              to_path)
+        try:
+            shutil.move(file_path, to_path)
+        except shutil.Error:
+            # TODO change to logging
+            print(Clr.WRN + "WARNING" + Clr.RST + " File already exsists: ", file_path,
+                  " in ", to_path)
+
 def main():
-    """TODO"""
+    """Just does the thing ^^"""
     base_dir = os.environ["HOME"]
     addons_dir = os.path.join(base_dir, "addons")
 
@@ -69,26 +88,10 @@ def main():
         choose(clone_string, addons_dir)
 
     modules_available_path = os.path.join(base_dir, "mumo", "modules-available")
-    for file_path in find_files_recursive("*.ini", addons_dir):
-        print(Clr.OKG + "FROM:" + Clr.RST, " ", file_path, " " + Clr.OKG + "TO:" + Clr.RST + " ",
-              modules_available_path)
-        try:
-            shutil.move(file_path, modules_available_path)
-        except shutil.Error:
-            # TODO change to logging
-            print(Clr.WRN + "WARNING" + Clr.RST + " File already exsists: ", file_path,
-                  " in ", modules_available_path)
+    mumo_modules_move("*.ini", addons_dir, modules_available_path)
 
     modules_path = os.path.join(base_dir, "mumo", "modules")
-    for file_path in find_files_recursive("*.py", addons_dir):
-        print(Clr.OKG + "FROM:" + Clr.RST, " ", file_path, " " + Clr.OKG + "TO:" + Clr.RST + " ",
-              modules_path)
-        try:
-            shutil.move(file_path, modules_path)
-        except shutil.Error:
-            # TODO change to logging
-            print(Clr.WRN + "WARNING" + Clr.RST + " File already exsists: ", file_path,
-                  " in ", modules_path)
+    mumo_modules_move("*.py", addons_dir, modules_path)
 
     # fixing derangment of prints
     sys.stdout.flush()
