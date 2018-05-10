@@ -26,7 +26,7 @@ RUN set -eu \
 
 
 USER mumo
-VOLUME ["/home/mumo/data", "/home/mumo/share"]
+VOLUME ["/home/mumo/modules-enabled", "/home/mumo/share", "/home/mumo/mumo.ini"]
 WORKDIR /home/mumo
 COPY configure_modules.py /home/mumo
 RUN ./configure_modules.py

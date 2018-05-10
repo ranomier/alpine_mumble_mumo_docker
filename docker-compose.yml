@@ -23,7 +23,8 @@ services:
     build: mumo_alpine
     restart: always
     volumes:
-      - /srv/docker_volumes/mumo/data:/home/mumo/data
+      - /srv/docker_volumes/mumo/modules_enabled:/home/mumo/modules_enabled
+      - /srv/docker_volumes/mumo/mumo.ini:/home/mumo/mumo.ini
       - share:/home/mumo/share
 
 # uncomment the next two lines to the the cloned addons stay
