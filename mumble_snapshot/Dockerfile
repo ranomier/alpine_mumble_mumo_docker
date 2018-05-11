@@ -15,7 +15,8 @@ RUN set -eu \
  && chmod -R u+rw /home/murmur/data \
  && mkdir -p /home/murmur/share \
  && chown -R murmur /home/murmur/share \
- && chmod -R u+rw /home/murmur/share
+ && chmod -R u+rw /home/murmur/share \
+ && ls -la /home/murmur
 
 USER murmur
 VOLUME ["/home/murmur/data", "/home/murmur/share"]
@@ -23,7 +24,8 @@ WORKDIR /home/murmur
 COPY --chown=murmur "start.sh" "start.sh"
 RUN set -eu \
  && wget 'https://www.natenom.com/r/getmumbleserver/dev/linux' -O - | tar --strip-components=1 -xj \
- && chmod +x "${HOME}/start.sh"
+ && chmod +x "${HOME}/start.sh" \
+ && ls -la /home/murmur
 
 #USER murmur
 #CMD ["cat", "/home/murmur/start.sh"]

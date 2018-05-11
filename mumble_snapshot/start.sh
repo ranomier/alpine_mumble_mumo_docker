@@ -2,11 +2,15 @@
 printf "######################\n"
 printf "# using start script #\n"
 printf "######################\n"
+chown -R 1000:1000 "${HOME}/data"
+ls -la "${HOME}"
 murmur_loc="${HOME}/data/murmur.ini"
 if [ -e "${murmur_loc}" ]; then
-    mv "${HOME}/murmur.ini" "${murmur_loc}.original"
+    # if exsist, copy the original unedited posibly freshly downloaded config
+    cp "${HOME}/murmur.ini" "${murmur_loc}.original"
 else
-    mv "${HOME}/murmur.ini" "${murmur_loc}"
+    # if not, create a new config from the downloaded mumble snapshot package
+    cp "${HOME}/murmur.ini" "${murmur_loc}"
     sed -i -e "s|database=.*|database=${HOME}/data/murmur.sqlite" "${murmur_loc}" 
 fi
 printf "$(</dev/urandom tr -dc _A-Z-a-z-0-9 | head -c16)" > "${HOME}/share/icepassword"
