@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 networks:
   mumble_mumo:
@@ -8,8 +8,12 @@ services:
     build: mumble_snapshot
     restart: always
     volumes:
-      - /srv/docker_volumes/murmur/data:/home/murmur/data
-      - share:/home/murmur/share
+      - type: volume
+        source: mumble-data
+        target: /home/murmur/data
+      - type: volume
+        source: mumble-share
+        target: /home/murmur/share
     ports:
       - "64738:64738/tcp"
       - "64738:64738/udp"
@@ -25,7 +29,9 @@ services:
     volumes:
       - /srv/docker_volumes/mumo/modules_enabled:/home/mumo/modules_enabled
       - /srv/docker_volumes/mumo/mumo.ini:/home/mumo/mumo.ini
-      - share:/home/mumo/share
+      - mumble-share:/home/mumo/share
+    depends_on:
+      - murmur
 
 # uncomment the next two lines to the the cloned addons stay
 #    environment:
@@ -37,6 +43,7 @@ services:
       - ALL
 
 volumes:
-  share:
+  mumble-share:
+  mumble-data:
 
 #vim: tabstop=2 shiftwidth=2 expandtab

@@ -2,8 +2,6 @@
 printf "######################\n"
 printf "# using start script #\n"
 printf "######################\n"
-chown -R 1000:1000 "${HOME}/data"
-ls -la "${HOME}"
 murmur_loc="${HOME}/data/murmur.ini"
 if [ -e "${murmur_loc}" ]; then
     # if exsist, copy the original unedited posibly freshly downloaded config

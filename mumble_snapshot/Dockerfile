@@ -15,8 +15,7 @@ RUN set -eu \
  && chmod -R u+rw /home/murmur/data \
  && mkdir -p /home/murmur/share \
  && chown -R murmur /home/murmur/share \
- && chmod -R u+rw /home/murmur/share \
- && ls -la /home/murmur
+ && chmod -R u+rw /home/murmur/share
 
 USER murmur
 VOLUME ["/home/murmur/data", "/home/murmur/share"]
