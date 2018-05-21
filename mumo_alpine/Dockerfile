@@ -19,15 +19,15 @@ RUN set -eu \
  && pip install --global-option=build_ext --global-option="-D__USE_UNIX98" zeroc-ice \
  && apk del --purge ${build_deps} \
  && rm -rf /var/cache/apk/* \
- && adduser -D mumo \
- && mkdir -p /home/mumo/share \
- && chown -R mumo /home/mumo/share \
- && chmod -R u+rw /home/mumo/share
+ && adduser -D user \
+ && mkdir -p /home/user/share \
+ && chown -R user /home/user/share \
+ && chmod -R u+rw /home/user/share
 
 
-USER mumo
-VOLUME ["/home/mumo/modules-enabled", "/home/mumo/share", "/home/mumo/mumo.ini"]
-WORKDIR /home/mumo
-COPY configure_modules.py /home/mumo
+USER user
+VOLUME ["/home/user/mumo/modules-enabled", "/home/mumo/share", "/home/user/mumo/mumo.ini"]
+WORKDIR /home/user
+COPY configure_modules.py /home/user
 RUN ./configure_modules.py
 

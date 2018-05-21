@@ -69,9 +69,9 @@ def mumo_modules_move(pattern, from_path, to_path):
 def main():
     """Just does the thing ^^"""
     base_dir = os.environ["HOME"]
-    addons_dir = os.path.join(base_dir, "addons")
+    modules_dir = os.path.join(base_dir, "modules")
 
-    os.mkdir(addons_dir)
+    os.mkdir(modules_dir)
 
     print("## cloning to: " + base_dir)
     print()
@@ -82,29 +82,29 @@ def main():
                    "ExplodingFist/mumo-opcommand",
                    "Natenom/mumblemoderator-module-collection",
                    "Betriebsrat/mumo-password")
-    print("## cloning to:" + addons_dir)
+    print("## cloning to:" + modules_dir)
     print()
     for clone_string in clone_array:
-        choose(clone_string, addons_dir)
+        choose(clone_string, modules_dir)
 
     modules_available_path = os.path.join(base_dir, "mumo", "modules-available")
-    mumo_modules_move("*.ini", addons_dir, modules_available_path)
+    mumo_modules_move("*.ini", modules_dir, modules_available_path)
 
     modules_path = os.path.join(base_dir, "mumo", "modules")
-    mumo_modules_move("*.py", addons_dir, modules_path)
+    mumo_modules_move("*.py", modules_dir, modules_path)
 
     # fixing derangment of prints
     sys.stdout.flush()
 
-    sp.check_call(("tree", os.path.join(os.environ["HOME"], "addons")))
+    sp.check_call(("tree", modules_dir))
     sp.check_call(("tree", os.environ["HOME"]))
-    print("I merged all the downloaded addons into the main mumo repo.\n",
+    print("I merged all the downloaded modules into the main mumo repo.\n",
           "Please check if i forgot something.")
     if "DO_NOT_DELETE_ADDONS" in os.environ:
-        print("I won't delete the addons because DO_NOT_DELETE_ADDONS variable is set")
+        print("I won't delete the modules because DO_NOT_DELETE_ADDONS variable is set")
     else:
-        print("Deleting addons now")
-        shutil.rmtree(addons_dir, ignore_errors=True)
+        print("Deleting modules now")
+        shutil.rmtree(modules_dir, ignore_errors=True)
 
 if __name__ == "__main__":
     sys.exit(main())
